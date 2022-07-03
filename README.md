@@ -8,9 +8,9 @@ files content located in some directory
 
 ## Service Endpoints
 
-- **GET /order** | **Req params: page int; size int** - get all orders
+- **GET /order** | **Req params: page int; size int** - get all orders on the page of the given size
 
-- **GET /order/{OrderUid}** - get all order by _OrderUid_
+- **GET /order/{OrderUid}** - get an order by _OrderUid_
 
 ## Utility
 
