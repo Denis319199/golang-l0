@@ -38,7 +38,7 @@ To start a nats streaming server use [docker-compose.yml](./service/resources/do
 
 ### Unit Tests
 
-Write some unit tests that covers **44.1%** of statements
+Write some unit tests that covers **44.6%** of statements
 
 ### Load Testing
 

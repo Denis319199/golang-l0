@@ -69,7 +69,7 @@ func TestGetAllOrders(t *testing.T) {
 	server := httptest.NewServer(r)
 	defer server.Close()
 
-	request, _ := http.NewRequest("GET", server.URL+"/order", nil)
+	request, _ := http.NewRequest("GET", server.URL+"/order?size=1&page=0", nil)
 	response, err := http.DefaultClient.Do(request)
 	if err != nil {
 		return
