@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+nats:
+  cluster-id: mycluster
+  client-id: myservice
+  url: 127.0.0.1:4222
+
+
+sql:
+  hostname: localhost
+  port: 5432
+  user: postgres
+  password: root
+  database: l0
+  sslmode: disable

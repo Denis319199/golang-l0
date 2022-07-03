@@ -1,0 +1,220 @@
+{{define "T"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #313335;
+            font-size: 1.2rem;
+            color: #cc7832;
+        }
+
+        span {
+            color: #697e47;
+        }
+
+        .mg-left {
+            margin-left: 30px;
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .container-column {
+            background-color: #2b2b2b;
+            padding: 20px;
+            border: 2px solid rgb(85, 85, 85);
+            border-radius: 10px;
+            transition: all 0.2s ease-in;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .container-column:hover {
+            -webkit-box-shadow: 11px 11px 0px 3px #495153;
+            box-shadow: 11px 11px 0px 3px #495153;
+        }
+
+        .container-flex {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .container-flex div {
+            margin-left: 30px;
+        }
+
+        .container-flex div:nth-child(1),
+        .container-flex div:last-child {
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    {{range $index, $order := .}}
+    <div class="container-column container-column">
+        <div>
+            Order UID: <span>{{$order.OrderUid}}</span>
+        </div>
+        <div class="container-flex">
+            <div>
+                Delivery: {
+            </div>
+            <div>
+                Name: <span>{{$order.Delivery.Name}}</span>
+            </div>
+            <div>
+                Phone: <span>{{$order.Delivery.Phone}}</span>
+            </div>
+            <div>
+                Zip: <span>{{$order.Delivery.Zip}}</span>
+            </div>
+            <div>
+                Address: <span>{{$order.Delivery.Address}}</span>
+            </div>
+            <div>
+                Region: <span>{{$order.Delivery.Region}}}</span>
+            </div>
+            <div>
+                Email: <span>{{$order.Delivery.Email}}</span>
+            </div>
+            <div>
+                }
+            </div>
+        </div>
+        <div class="container-flex">
+            <div>
+                Payment: {
+            </div>
+            <div>
+                Transaction: <span>{{$order.Payment.Transaction}}</span>
+            </div>
+            <div>
+                Request ID: <span>{{$order.Payment.RequestId}}</span>
+            </div>
+            <div>
+                Currency: <span>{{$order.Payment.Currency}}</span>
+            </div>
+            <div>
+                Provider: <span>{{$order.Payment.Provider}}</span>
+            </div>
+            <div>
+                Amount: <span>{{$order.Payment.Amount}}</span>
+            </div>
+            <div>
+                Payment DT: <span>{{$order.Payment.PaymentDt}}</span>
+            </div>
+            <div>
+                Bank: <span>{{$order.Payment.Bank}}</span>
+            </div>
+            <div>
+                Delivery Cost: <span>{{$order.Payment.DeliveryCost}}</span>
+            </div>
+            <div>
+                Goods Total: <span>{{$order.Payment.GoodsTotal}}</span>
+            </div>
+            <div>
+                Custom Fee: <span>{{$order.Payment.CustomFee}}</span>
+            </div>
+            <div>
+                }
+            </div>
+        </div>
+        <div class="container-flex">
+            <div>
+                Items: [
+            </div>
+            {{range $low_index, $item := $order.Items}}
+            <div class="container-flex mg-left">
+                <div>{</div>
+                <div>
+                    CHRT ID: <span>{{$item.ChrtId}}</span>
+                </div>
+                <div>
+                    Track Number: <span>{{$item.TrackNumber}}</span>
+                </div>
+                <div>
+                    Price: <span>{{$item.Price}}</span>
+                </div>
+                <div>
+                    RID: <span>{{$item.Rid}}</span>
+                </div>
+                <div>
+                    Name: <span>{{$item.Name}}</span>
+                </div>
+                <div>
+                    Sale: <span>{{$item.Sale}}</span>
+                </div>
+                <div>
+                    Size: <span>{{$item.Size}}</span>
+                </div>
+                <div>
+                    Total Price: <span>{{$item.TotalPrice}}</span>
+                </div>
+                <div>
+                    NM ID: <span>{{$item.NmId}}</span>
+                </div>
+                <div>
+                    Brand: <span>{{$item.Brand}}</span>
+                </div>
+                <div>
+                    Status: <span>{{$item.Status}}</span>
+                </div>
+                <div>}</div>
+            </div>
+            {{end}}
+            <div>
+                ]
+            </div>
+        </div>
+        <div>
+            Locale:
+            <span>{{$order.Locale}}</span>
+        </div>
+        <div>
+            Internal Signature:
+            <span>{{$order.InternalSignature}}</span>
+        </div>
+        <div>
+            Customer ID:
+            <span>{{$order.CustomerId}}</span>
+        </div>
+        <div>
+            Delivery Service:
+            <span>{{$order.DeliveryService}}</span>
+        </div>
+        <div>
+            Shardkey: <span>{{$order.Shardkey}}</span>
+        </div>
+        <div>
+            SM ID: <span>{{$order.SmId}}</span>
+        </div>
+        <div>
+            Date Created: <span>{{$order.DateCreated}}</span>
+        </div>
+        <div>
+            Off Shard: <span>{{$order.OofShard}}</span>
+        </div>
+    </div>
+    {{end}}
+</div>
+</body>
+</html>
+{{end}}
