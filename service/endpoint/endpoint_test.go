@@ -13,7 +13,7 @@ import (
 
 func SetupRouterTest(r *mux.Router) {
 	s := r.Methods("GET").Subrouter()
-	s.HandleFunc("/order", getAllOrders)
+	s.HandleFunc("/order", getOrders)
 	s.HandleFunc("/order/{id}", getOrderById)
 
 	var err error

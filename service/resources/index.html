@@ -39,6 +39,7 @@
             border: 2px solid rgb(85, 85, 85);
             border-radius: 10px;
             transition: all 0.2s ease-in;
+            align-self: start;
             display: flex;
             flex-direction: column;
             gap: 7px;
@@ -69,7 +70,7 @@
 
 <div class="container">
     {{range $index, $order := .}}
-    <div class="container-column container-column">
+    <div class="container-column">
         <div>
             Order UID: <span>{{$order.OrderUid}}</span>
         </div>

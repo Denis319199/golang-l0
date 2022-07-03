@@ -9,13 +9,13 @@ import (
 )
 
 const (
-	getAllOrdersQuery = "SELECT * FROM orders;"
+	getAllOrdersQuery = "SELECT * FROM orders ORDER BY order_uid LIMIT $1 OFFSET $2;"
 	getOrderByIdQuery = "SELECT * FROM orders WHERE order_uid = $1;"
 	insertIntoQuery   = "INSERT INTO orders VALUES($1, $2);"
 )
 
 type OrdersTable interface {
-	GetAllOrders(ctx context.Context) (res []*model.Order, err error)
+	GetOrders(page, size int, ctx context.Context) (res []*model.Order, err error)
 	GetOrderById(ctx context.Context, id string) (res *model.Order, err error)
 	InsertOrder(ctx context.Context, order *model.Order) error
 }
@@ -49,9 +49,9 @@ func newOrdersTable(db *sql.DB) OrdersTable {
 	return &table
 }
 
-func (table *OrdersTableImpl) GetAllOrders(ctx context.Context) (res []*model.Order, err error) {
+func (table *OrdersTableImpl) GetOrders(page, size int, ctx context.Context) (res []*model.Order, err error) {
 	var rows *sql.Rows
-	rows, err = table.getAllOrdersStatement.QueryContext(ctx)
+	rows, err = table.getAllOrdersStatement.QueryContext(ctx, size, page*size)
 	if err != nil {
 		return
 	}

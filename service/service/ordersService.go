@@ -12,7 +12,7 @@ import (
 type OrdersService interface {
 	InsertOrder(ctx context.Context, order *model.Order) error
 	GetOrderById(ctx context.Context, orderUid string) (order *model.Order, err error)
-	GetAllOrders(ctx context.Context) (order []*model.Order, err error)
+	GetOrders(page, size int, ctx context.Context) (order []*model.Order, err error)
 }
 
 type OrdersServiceImpl struct {
@@ -21,12 +21,14 @@ type OrdersServiceImpl struct {
 }
 
 func newOrdersService(ordersTable db.OrdersTable) OrdersService {
+	const maxCacheSize = 5
+
 	config := bigcache.Config{
-		Shards:             1024,
+		Shards:             512,
 		LifeWindow:         0,
 		CleanWindow:        0,
-		MaxEntriesInWindow: 1000 * 10 * 60,
-		HardMaxCacheSize:   1,
+		MaxEntriesInWindow: 100000,
+		HardMaxCacheSize:   maxCacheSize,
 	}
 
 	cache, initErr := bigcache.NewBigCache(config)
@@ -36,15 +38,22 @@ func newOrdersService(ordersTable db.OrdersTable) OrdersService {
 
 	ordersService := &OrdersServiceImpl{ordersTable, cache}
 
-	orders, err := ordersService.table.GetAllOrders(context.Background())
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, order := range orders {
-		err = ordersService.saveOrderInCache(order)
+	// Fill cache with orders until cache size exceeds 4MB (max cache size 5MB)
+	for page := 0; cache.Capacity() < ((maxCacheSize - 1) << 20); page++ {
+		orders, err := ordersService.table.GetOrders(page, 50, context.Background())
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		if orders == nil {
+			break
+		}
+
+		for _, order := range orders {
+			err = ordersService.saveOrderInCache(order)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
@@ -106,6 +115,6 @@ func (service *OrdersServiceImpl) GetOrderById(ctx context.Context, orderUid str
 	return order, err
 }
 
-func (service *OrdersServiceImpl) GetAllOrders(ctx context.Context) (order []*model.Order, err error) {
-	return service.table.GetAllOrders(ctx)
+func (service *OrdersServiceImpl) GetOrders(page, size int, ctx context.Context) (order []*model.Order, err error) {
+	return service.table.GetOrders(page, size, ctx)
 }

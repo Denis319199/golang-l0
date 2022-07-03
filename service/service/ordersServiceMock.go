@@ -94,7 +94,7 @@ func (table OrdersTableMock) GetOrderById(ctx context.Context, id string) (res *
 	return &order, nil
 }
 
-func (table OrdersTableMock) GetAllOrders(ctx context.Context) (res []*model.Order, err error) {
+func (table OrdersTableMock) GetOrders(page, size int, ctx context.Context) (res []*model.Order, err error) {
 	if table.returnError {
 		return nil, mockError{}
 	}
