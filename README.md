@@ -4,33 +4,35 @@
 
 - **/service** - the service source code
 - **/utility** - source code of the utility providing possibility to publish 
-elements of a JSON array to nats streaming
+files content located in some directory
 
 ## Service Endpoints
 
-- **GET /order** - get all orders
+- **GET /order** | **Req params: page int; size int** - get all orders
 
 - **GET /order/{OrderUid}** - get all order by _OrderUid_
 
 ## Utility
 
+The utility opens the given directory and publishes each file to NATS Streaming 
+
 ```
-./utility <nats_url> <cluster_id> <file>
+./utility <nats_url> <cluster_id> <dir>
 ```
 
-Some test data for this utility are located in [data.json](./utility/data.json)
+Some test data for this utility are located in [data directory](./utility/data)
 
 **Example:**
 
 Utility allows to publish elements of a JSON array one by one
 
 ```
-./utility 127.0.0.1:4222 mycluster ./data.json
+./utility 127.0.0.1:4222 mycluster ./data
 ```
 
 ## Nats Streaming
 
-To start a nats streaming server use [docker-compose.yml](/service/resources/docker-compose.yml)
+To start a nats streaming server use [docker-compose.yml](./service/resources/docker-compose.yml)
 
 ## Tests
 
@@ -51,10 +53,10 @@ Requests that was tested reside in [vegeta_requests.txt](./service/resources/veg
 The results I got through `vegeta report results.bin` are listed below:
 
 ```
-Requests      [total, rate, throughput]  250, 50.20, 50.20
-Duration      [total, attack, wait]      4.9796331s, 4.9796331s, 0s
-Latencies     [mean, 50, 95, 99, max]    547.049µs, 552.733µs, 1.0795ms, 1.1928ms, 5.903ms
-Bytes In      [total, mean]              2376000, 9504.00
+Requests      [total, rate, throughput]  250, 50.23, 50.23
+Duration      [total, attack, wait]      4.9768656s, 4.9768656s, 0s
+Latencies     [mean, 50, 95, 99, max]    589.917µs, 562.966µs, 1.2505ms, 1.8133ms, 6.4169ms
+Bytes In      [total, mean]              2678500, 10714.00
 Bytes Out     [total, mean]              0, 0.00
 Success       [ratio]                    100.00%
 Status Codes  [code:count]               200:250  
