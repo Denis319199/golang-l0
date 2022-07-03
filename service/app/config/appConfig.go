@@ -23,6 +23,8 @@ func init() {
 	app.ServiceInstance.Services = service.NewServices(app.ServiceInstance.Database)
 	app.ServiceInstance.Nats = newNatsStreaming()
 	app.ServiceInstance.Server = newServer()
+
+	log.Println("Service has been successfully configured")
 }
 
 func newValidator() *validator.Validate {

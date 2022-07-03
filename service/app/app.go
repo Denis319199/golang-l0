@@ -56,7 +56,7 @@ func (service *Service) ShutdownService() {
 
 func (service *Service) Start() {
 	go func() {
-		log.Println("Starting service")
+		log.Println("Service has been started")
 		if err := service.Server.ListenAndServe(); err != nil {
 			log.Println(err)
 		}
